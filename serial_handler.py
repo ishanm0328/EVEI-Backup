@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
 import re
+import serial
 
 ###
 # Concat two lines from serial input and pass to this
 # Returns a hash of the parsed data
 #
-def serial_parse(serial_string):
+def parse(serial_string):
 
     pattern = ('^RM([0-9]+)'        # Match RM0, RM100, etc
                '[\s]*'              # Match any number of spaces after that
@@ -34,3 +35,14 @@ def serial_parse(serial_string):
     data['gyro_y'] = int(matches.group(6))
     data['gyro_z'] = int(matches.group(7))
     return data
+
+###
+# Create a serial connection on the given port
+#
+def connect(port):
+    return serial.Serial(port=port,
+                         baudrate=9600,
+                         parity=serial.PARITY_NONE,
+                         stopbits=serial.STOPBITS_ONE,
+                         bytesize=serial.EIGHTBITS,
+                         timeout=0)
