@@ -2,6 +2,7 @@
 
 import re
 import serial
+from serial.tools.list_ports import comports
 
 ###
 # Concat two lines from serial input and pass to this
@@ -48,3 +49,10 @@ def connect(port):
                          stopbits=serial.STOPBITS_ONE,
                          bytesize=serial.EIGHTBITS,
                          timeout=0)
+
+def get_serial_ports():
+    ports = comports()
+    names = []
+    for port in ports:
+        names.append(port.device)
+    return names
