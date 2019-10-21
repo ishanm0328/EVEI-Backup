@@ -1,24 +1,23 @@
-from pandas import DataFrame
 import tkinter as tk
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 
+import numpy as np
 
-data = {
-    'X': [1, 2, 3, 4, 5],
-    'Y': [3, 5, 1, 7, 4]
-}
+class Graph():
+    def __init__(self, window, data):
+        self.window = window
+        self.data = data
 
-dataFrame = DataFrame(data, columns=list(data.keys()))
-#dataFrame[list(data.keys())].groupby('X').sum()
+        self.figure = Figure(figsize=(5,4), dpi=100)
+        t = np.arange(0, 3, .01)
+        self.figure.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
 
-root = tk.Tk()
+        self.canvas = FigureCanvasTkAgg(self.figure, master=window)  # A tk.DrawingArea.
+        #self.canvas.draw()
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
-figure = plt.Figure(figsize=(6,5), dpi=100)
-ax = figure.add_subplot(111)
-chart_type = FigureCanvasTkAgg(figure, root)
-chart_type.get_tk_widget().pack()
-dataFrame.plot(kind='line', legend=True, ax=ax)
-ax.set_title('The Title of your chart')
-
-root.mainloop()
+    def update():
+        pass
