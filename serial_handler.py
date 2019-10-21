@@ -12,8 +12,8 @@ class SerialHandler():
 
     def connect():
         self.serialport = serial.Serial(
-            port=self.config['serial']['port']
-            baudrate=self.config['serial']['baud']
+            port=self.config['serial']['port'],
+            baudrate=self.config['serial']['baud'],
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
@@ -27,6 +27,7 @@ class SerialHandler():
     def update():
         if not self.serialport:
             # raise exception
+            pass
         if self.serialport.in_waiting >= 34:
             line = self.serialport.readline()
             line = line + self.serialport.readline()
