@@ -4,55 +4,71 @@ import re
 import serial
 from serial.tools.list_ports import comports
 
-###
-# Concat two lines from serial input and pass to this
-# Returns a hash of the parsed data
-#
-def parse(serial_string):
+class SerialHandler():
+    def __init__(self, data, config):
+        self.data = data
+        self.config = config
+        self.serialport = None
 
-    pattern = ('^RM([0-9]+)'        # Match RM0, RM100, etc
-               '[\s]*'              # Match any number of spaces after that
-               'A([0-9]\.[0-9])'    # Match A0.0, A1.3, etc
-               'B([0-9]\.[0-9])'    # Match B0.0, B1.3, etc
-               '([D ])\n'           # Match D or a blank
-               'E([0-9]+)'          # Match E0, E100, etc
-               '[\s]*'              # Match any number of spaces after
-               '([+-][0-9]{1,2})'   # Match +3, -12, etc
-               '[\s]?'              # There might be a space, if the number before was only 1 digit
-               '([+-][0-9]{1,2})'   # Match +3, -12, etc
-               '[\s]?'              # There might be a space here too
-               '([+-][0-9]{1,2})$') # Match +3, -12, etc
+    def connect():
+        self.serialport = serial.Serial(
+            port=self.config['serial']['port']
+            baudrate=self.config['serial']['baud']
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=0
+        )
 
-    matches = re.search(pattern, serial_string)
+    def disconnect():
+        self.serialport.close()
 
-    if matches == None:
-        raise ValueError
+    # TODO: just read 34 bytes with a short timeout?
+    def update():
+        if not self.serialport:
+            # raise exception
+        if self.serialport.in_waiting >= 34:
+            line = self.serialport.readline()
+            line = line + self.serialport.readline()
+            self.data.append(parse(line))
+            return True
+        else:
+            return False
 
-    data = {}
-    data['rpm'] = int(matches.group(1))
-    data['analog_a'] = float(matches.group(2))
-    data['analog_b'] = float(matches.group(3))
-    data['lap_count'] = bool(matches.group(4).strip())
-    data['energy'] = int(matches.group(5))
-    data['gyro_x'] = int(matches.group(6)) # TODO: x/y might be wrong
-    data['gyro_y'] = int(matches.group(7))
-    data['gyro_z'] = int(matches.group(8))
-    return data
+    # TODO: store timestamp in data too
+    def parse(serial_string):
+        pattern = ('^RM([0-9]+)'        # Match RM0, RM100, etc
+                   '[\s]*'              # Match any number of spaces after that
+                   'A([0-9]\.[0-9])'    # Match A0.0, A1.3, etc
+                   'B([0-9]\.[0-9])'    # Match B0.0, B1.3, etc
+                   '([D ])\n'           # Match D or a blank
+                   'E([0-9]+)'          # Match E0, E100, etc
+                   '[\s]*'              # Match any number of spaces after
+                   '([+-][0-9]{1,2})'   # Match +3, -12, etc
+                   '[\s]?'              # Maybe a space, if the number was only 1 digit
+                   '([+-][0-9]{1,2})'   # Match +3, -12, etc
+                   '[\s]?'              # There might be a space here too
+                   '([+-][0-9]{1,2})$') # Match +3, -12, etc
 
-###
-# Create a serial connection on the given port
-#
-def connect(port):
-    return serial.Serial(port=port,
-                         baudrate=9600,
-                         parity=serial.PARITY_NONE,
-                         stopbits=serial.STOPBITS_ONE,
-                         bytesize=serial.EIGHTBITS,
-                         timeout=0)
+        matches = re.search(pattern, serial_string)
 
-def get_serial_ports():
-    ports = comports()
-    names = []
-    for port in ports:
-        names.append(port.device)
-    return names
+        if matches == None:
+            raise ValueError # TODO: just ignore bad data?
+
+        data = {}
+        data['rpm'] = int(matches.group(1))
+        data['analog_a'] = float(matches.group(2))
+        data['analog_b'] = float(matches.group(3))
+        data['lap_count'] = bool(matches.group(4).strip())
+        data['energy'] = int(matches.group(5))
+        data['gyro_x'] = int(matches.group(6)) # TODO: x/y might be wrong
+        data['gyro_y'] = int(matches.group(7))
+        data['gyro_z'] = int(matches.group(8))
+        return data
+
+    def list_ports():
+        ports = comports()
+        names = []
+        for port in ports:
+            names.append(port.device)
+        return names

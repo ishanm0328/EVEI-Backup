@@ -8,7 +8,7 @@ def get_config():
         with open(CONF_FILE, 'r') as file:
             return json.load(file)
     else:
-        return set_default_config()
+        return get_default_config()
 
 def get_default_config():
     config = {}
@@ -24,6 +24,7 @@ def get_default_config():
     config['throttle']['channel'] = 'b'
     config['serial'] = {}
     config['serial']['baud'] = 9600
+    config['serial']['port'] = '/dev/ttyS0' #TODO: switch on windows
     return config    
 
 def save_config(config):
