@@ -24,10 +24,10 @@ class SerialHandler():
         self.serialport.close()
 
     # TODO: just read 34 bytes with a short timeout?
-    def update():
+    def update(self):
         if not self.serialport:
             # raise exception
-            pass
+            return False
         if self.serialport.in_waiting >= 34:
             line = self.serialport.readline()
             line = line + self.serialport.readline()

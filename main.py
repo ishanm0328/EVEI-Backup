@@ -15,9 +15,10 @@ window = Window() # Tk window object
 graph = Graph(data, window)
 
 while True:
-    #serial.update()
-   window.update_idletasks()
-   window.update()
+    serial.update()
+    window.update_idletasks()
+    window.update()
+    #graph.update()
 
 # TODO: register exit handler
 save_config(config)
