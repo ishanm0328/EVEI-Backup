@@ -18,7 +18,7 @@ while True:
     serial.update()
     window.update_idletasks()
     window.update()
-    #graph.update()
+    graph.update()
 
 # TODO: register exit handler
 save_config(config)
