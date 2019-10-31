@@ -14,6 +14,7 @@ class Graph():
 
         self.figure, self.axs = plt.subplots(2,2)
         self.setGraphNames(self.axs, self.graphNames)
+        plt.tight_layout()
 
         self.canvas = FigureCanvasTkAgg(self.figure, master=window)  # A tk.DrawingArea.
         #self.canvas.draw()
