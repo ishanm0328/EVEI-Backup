@@ -13,7 +13,7 @@ class Graph():
         self.graphNames = [["RPM","Energy"],["Acceleration","Position"]]
 
         self.figure, self.axs = plt.subplots(2,2)
-        setGraphNames(self.axs, graphNames)
+        self.setGraphNames(self.axs, self.graphNames)
 
         self.canvas = FigureCanvasTkAgg(self.figure, master=window)  # A tk.DrawingArea.
         #self.canvas.draw()
@@ -29,14 +29,17 @@ class Graph():
                         yar.append(data[j][graphNames[i][k]])
                 else:
                     xar = np.arange(len(data)-10,len(data)+1)
-                    for j in range(-10:0):
+                    for j in range(-10,0):
                         yar.append(data[j][graphNames[i][k]])
                 axs[i,k].clear()
                 setGraphNames(axs,graphNames)
                 axs[i,k].plot(xar,yar)
         self.canvas.draw()
 
-    def setGraphNames(axs,graphNames):
+    def setGraphNames(wut,axs,graphNames):
+        print(wut)
+        print(axs)
+        print(graphNames)
         for i in range(len(graphNames)):
             for k in range(len(graphNames[0])):
                 axs[i,k].set_title(graphNames[i][k])
