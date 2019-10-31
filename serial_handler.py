@@ -4,6 +4,8 @@ import re
 import serial
 from serial.tools.list_ports import comports
 
+from random import randint
+
 class SerialHandler():
     def __init__(self, data, config):
         self.data = data
@@ -25,8 +27,11 @@ class SerialHandler():
 
     # TODO: just read 34 bytes with a short timeout?
     def update(self):
-        if not self.serialport:
-            # raise exception
+        if not self.serialport: #XXX
+            self.data.append({'RPM': randint(0,10),
+                              'Energy': randint(0,10),
+                              'Acceleration': randint(0,10),
+                              'Position': randint(0,10)})
             return False
         if self.serialport.in_waiting >= 34:
             line = self.serialport.readline()
