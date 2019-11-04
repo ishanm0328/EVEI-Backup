@@ -11,6 +11,7 @@ import tkinter as tk
 config = config.get_config
 data = []
 serial = SerialHandler(data, config)
+serial.connect()
 window = Window() # Tk window object
 graph = Graph(data, window)
 

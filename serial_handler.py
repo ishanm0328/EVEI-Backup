@@ -12,7 +12,7 @@ class SerialHandler():
         self.config = config
         self.serialport = None
 
-    def connect():
+    def connect(self):
         self.serialport = serial.Serial(
             port=self.config['serial']['port'],
             baudrate=self.config['serial']['baud'],
