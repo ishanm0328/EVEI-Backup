@@ -10,7 +10,7 @@ class Graph():
     def __init__(self, data, window):
         self.window = window
         self.data = data
-        self.graphNames = [["RPM","Energy"],["Acceleration","Position"]]
+        self.graphNames = [["RPM","G-Forces"],["Throttle","Steering"]]
 
         self.figure, self.axs = plt.subplots(2,2)
         self.setGraphNames(self.axs, self.graphNames)
