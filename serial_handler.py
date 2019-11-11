@@ -60,12 +60,12 @@ class SerialHandler():
             raise ValueError # TODO: just ignore bad data?
 
         data = {}
-        data['RPM'] = int(matches.group(1))
-        data['Position'] = float(matches.group(2))
+        data['rpm'] = int(matches.group(1))
+        data['analog_a'] = float(matches.group(2))
         data['analog_b'] = float(matches.group(3))
         data['lap_count'] = bool(matches.group(4).strip())
-        data['Energy'] = int(matches.group(5))
-        data['Acceleration'] = int(matches.group(6)) # TODO: x/y might be wrong
+        data['energy'] = int(matches.group(5))
+        data['gyro_x'] = int(matches.group(6)) # TODO: x/y might be wrong
         data['gyro_y'] = int(matches.group(7))
         data['gyro_z'] = int(matches.group(8))
         return data
