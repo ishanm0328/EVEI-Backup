@@ -10,7 +10,9 @@ class Graph():
     def __init__(self, data, window):
         self.window = window
         self.data = data
-        self.graphNames = [["RPM","G-Forces"],["Throttle","Steering"]]
+        # TODO: separate graph & dataset names
+        # Graph names should be: RPM, G-Forces, Throttle, Steering
+        self.graphNames = [["rpm","gyro_x"],["analog_a","analog_b"]]
 
         self.figure, self.axs = plt.subplots(2,2)
         self.setGraphNames(self.axs, self.graphNames)
@@ -21,7 +23,6 @@ class Graph():
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     def update(self):
-        print(self.data)
         for i in range(len(self.graphNames)):
             for k in range(len(self.graphNames[0])):
                 yar = []
