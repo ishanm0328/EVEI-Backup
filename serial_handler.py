@@ -38,8 +38,6 @@ class SerialHandler():
 
     # TODO: store timestamp in data too
     def parse(self, serial_string):
-        print("Parsing:\n")
-        print(serial_string)
         pattern = ('^RM([0-9]+)'        # Match RM0, RM100, etc
                    '[\s]*'              # Match any number of spaces after that
                    'A([0-9]\.[0-9])'    # Match A0.0, A1.3, etc

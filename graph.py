@@ -12,7 +12,8 @@ class Graph():
         self.data = data
         # TODO: separate graph & dataset names
         # Graph names should be: RPM, G-Forces, Throttle, Steering
-        self.graphNames = [["rpm","gyro_x"],["analog_a","analog_b"]]
+        self.graphNames = [["RPM","G-Forces"],["Throttle","Steering"]]
+        self.dataNames =  [["rpm","gyro_x"],["analog_a","analog_b"]]
 
         self.figure, self.axs = plt.subplots(2,2)
         self.setGraphNames(self.axs, self.graphNames)
@@ -23,17 +24,21 @@ class Graph():
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     def update(self):
-        for i in range(len(self.graphNames)):
-            for k in range(len(self.graphNames[0])):
+        # Loop through all of our plots
+        for i in range(len(self.dataNames)):
+            for k in range(len(self.dataNames[0])):
                 yar = []
+                # If we have <= 10 data points, plot them all
                 if(len(self.data) <= 10):
                     xar = np.arange(1,len(self.data)+1)
                     for j in range(len(self.data)):
-                        yar.append(self.data[j][self.graphNames[i][k]])
+                        yar.append(self.data[j][self.dataNames[i][k]])
+                # Otherwise, plot just the most recent 10
                 else:
                     xar = np.arange(len(self.data)-10,len(self.data))
                     for j in range(-10,0):
-                        yar.append(self.data[j][self.graphNames[i][k]])
+                        yar.append(self.data[j][self.dataNames[i][k]])
+                # Clear graph and plot data again
                 self.axs[i,k].clear()
                 self.setGraphNames(self.axs,self.graphNames)
                 self.axs[i,k].plot(xar,yar)
