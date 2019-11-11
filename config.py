@@ -1,5 +1,5 @@
 import json
-import os.path
+import os.path as path
 
 CONF_FILE='config.json'
 

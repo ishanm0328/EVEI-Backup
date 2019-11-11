@@ -8,7 +8,7 @@ import tkinter as tk
 
 # TODO: setup window with graphs
 
-config = config.get_config
+config = config.get_config()
 data = []
 serial = SerialHandler(data, config)
 serial.connect()
