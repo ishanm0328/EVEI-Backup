@@ -34,10 +34,14 @@ class Graph():
 
         # Get Gyro values
         gyro_x = [ elem['gyro_x'] for elem in self.data ]
+        gyro_y = [ elem['gyro_y'] for elem in self.data ]
+        gyro_z = [ elem['gyro_z'] for elem in self.data ]
         self.axs[0,1].clear()
         self.axs[0,1].set_title("G-Forces")
         #self.axs[0,1].set_xlabel("Time")
         self.axs[0,1].plot(times[-10:], gyro_x[-10:])
+        self.axs[0,1].plot(times[-10:], gyro_y[-10:])
+        self.axs[0,1].plot(times[-10:], gyro_z[-10:])
         
         # Get Throttle values
         throttle = [ elem['analog_a'] for elem in self.data ]
