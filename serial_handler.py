@@ -51,7 +51,8 @@ class SerialHandler():
                    '[\s]?'              # Maybe a space, if the number was only 1 digit
                    '([+-][0-9]{1,2})'   # Match +3, -12, etc
                    '[\s]?'              # There might be a space here too
-                   '([+-][0-9]{1,2})$') # Match +3, -12, etc
+                   '([+-][0-9]{1,2})'   # Match, +3, -12, etc
+                   '[\s]?$')            # Maybe match a final space
 
         matches = re.search(pattern, serial_string)
 
