@@ -7,7 +7,7 @@ def format(rpm, analog_a, analog_b, digital, energy, gyro_x, gyro_y, gyro_z):
     return 'RM{: <5}A{:.1f}B{:.1f}{:s}\nE{: <6}{:<+3}{:<+3}{:<+3}\n'.format(
             rpm, analog_a, analog_b, digital, energy, gyro_x, gyro_y, gyro_z)
 
-port = serial.Serial(port='/dev/ttyS0',
+port = serial.Serial(port='/dev/ptyS10',
                      baudrate=9600,
                      parity=serial.PARITY_NONE,
                      stopbits=serial.STOPBITS_ONE,
