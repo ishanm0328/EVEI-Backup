@@ -10,9 +10,12 @@ import tkinter as tk
 
 config = config.get_config()
 data = []
+
+window = Window(config) # Tk window object
+window.prompt_serial()
+
 serial = SerialHandler(data, config)
 serial.connect()
-window = Window() # Tk window object
 graph = Graph(data, window)
 
 while True:
