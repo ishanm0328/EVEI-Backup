@@ -27,12 +27,6 @@ class SerialHandler():
 
     # TODO: just read 34 bytes with a short timeout?
     def update(self):
-        if not self.serialport: #XXX
-            self.data.append({'RPM': randint(0,10),
-                              'Energy': randint(0,10),
-                              'Acceleration': randint(0,10),
-                              'Position': randint(0,10)})
-            return False
         if self.serialport.in_waiting >= 34:
             line = self.serialport.readline()
             line = line + self.serialport.readline()
