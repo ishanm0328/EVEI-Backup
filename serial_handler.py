@@ -30,13 +30,16 @@ class SerialHandler():
         if self.serialport.in_waiting >= 34:
             line = self.serialport.readline()
             line = line + self.serialport.readline()
-            self.data.append(parse(line))
+            line = line.decode('ascii')
+            self.data.append(self.parse(line))
             return True
         else:
             return False
 
     # TODO: store timestamp in data too
-    def parse(serial_string):
+    def parse(self, serial_string):
+        print("Parsing:\n")
+        print(serial_string)
         pattern = ('^RM([0-9]+)'        # Match RM0, RM100, etc
                    '[\s]*'              # Match any number of spaces after that
                    'A([0-9]\.[0-9])'    # Match A0.0, A1.3, etc
