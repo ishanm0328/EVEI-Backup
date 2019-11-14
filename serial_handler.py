@@ -6,6 +6,8 @@ from serial.tools.list_ports import comports
 
 from random import randint
 
+from pprint import pprint
+
 class SerialHandler():
     def __init__(self, data, config):
         self.data = data
@@ -25,12 +27,33 @@ class SerialHandler():
     def disconnect():
         self.serialport.close()
 
+    def sublist_indexes(self, array, subarray):
+        indexes = []
+        for i in range(len(array)):
+            if array[i] == subarray[0] and array[i:i+len(subarray)] == subarray:
+                indexes.append(i)
+        return indexes
+
+    def replace_sublist(self, array, find, replace):
+        indexes = self.sublist_indexes(array, find)
+        for index in indexes:
+            array = array[0:index] + replace + array[index+len(find):]
+        return array
+
+    def ctrl_decode(self, line):
+        pprint(line)
+        array = list(line)
+        pprint(array)
+        return line
+
     # TODO: just read 34 bytes with a short timeout?
     def update(self):
         if self.serialport.in_waiting >= 34:
             line = self.serialport.readline()
             line = line + self.serialport.readline()
-            line = line.decode('ascii')
+            #line = line.decode('utf-8')
+            #line = str(line, 'ascii')
+            line = self.ctrl_decode(line)
             self.data.append(self.parse(line))
             return True
         else:
