@@ -41,10 +41,19 @@ class SerialHandler():
         return array
 
     def ctrl_decode(self, line):
-        pprint(line)
         array = list(line)
-        pprint(array)
-        return line
+        array = self.replace_sublist(array, [0, 57], [])
+        array = self.replace_sublist(array, [254, 81], [])
+        array = self.replace_sublist(array, [254, 69, 0], [])
+        array = self.replace_sublist(array, [254, 69, 7], [32, 32, 32])
+        array = self.replace_sublist(array, [254, 69, 64], [10])
+        array = self.replace_sublist(array, [254, 69, 71], [32])
+        array = self.replace_sublist(array, [254, 69, 74], [32])
+        array = self.replace_sublist(array, [254, 69, 77], [32])
+        print(array)
+        string = bytes(array).decode('ascii')
+        pprint(string)
+        return string
 
     # TODO: just read 34 bytes with a short timeout?
     def update(self):
