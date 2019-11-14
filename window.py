@@ -7,7 +7,7 @@ class Window(tk.Tk):
         super(Window, self).__init__(*args, **kwargs)
 
     def prompt_serial(self):
-        filetypes = [('serial ports', 'ttyS*')]
+        filetypes = [('serial ports', 'ttyS*'), ('usb serial', 'ttyUSB*')]
         port = filedialog.askopenfilename(parent=self, initialdir='/dev',
                                    title='Select Serial Port',
                                    filetypes=filetypes)
