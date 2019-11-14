@@ -60,11 +60,13 @@ class SerialHandler():
         if self.serialport.in_waiting >= 34:
             line = self.serialport.readline()
             line = line + self.serialport.readline()
-            #line = line.decode('utf-8')
-            #line = str(line, 'ascii')
             line = self.ctrl_decode(line)
-            self.data.append(self.parse(line))
-            return True
+            data = self.parse(line)
+            if data:
+                self.data.append(data)
+                return True
+            else:
+                return False
         else:
             return False
 
@@ -87,7 +89,8 @@ class SerialHandler():
         matches = re.search(pattern, serial_string)
 
         if matches == None:
-            raise ValueError # TODO: just ignore bad data?
+            #raise ValueError # TODO: just ignore bad data?
+            return None
 
         data = {}
         data['rpm'] = int(matches.group(1))
