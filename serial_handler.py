@@ -53,23 +53,27 @@ class SerialHandler():
         array = self.replace_sublist(array, [254, 69], [])
         array = self.replace_sublist(array, [254, 43], [])
         array = self.replace_sublist(array, [254, 81], [])
-        string = bytes(array).decode('ascii')
+        try:
+            string = bytes(array).decode('ascii')
+        except UnicodeDecodeError:
+            print("Failed to decode ASCII:")
+            print(array)
+            return ""
         return string
 
-    # TODO: just read 34 bytes with a short timeout?
     def update(self):
-        if self.serialport.in_waiting >= 34:
-            line = self.serialport.readline()
-            line = line + self.serialport.readline()
-            line = self.ctrl_decode(line)
-            data = self.parse(line)
-            if data:
-                self.data.append(data)
-                return True
-            else:
-                return False
-        else:
+        if not self.serialport.in_waiting >= 34:
             return False
+        line = self.serialport.readline()
+        line = line + self.serialport.readline()
+        line = self.ctrl_decode(line)
+        if not line:
+            return False
+        data = self.parse(line)
+        if not data:
+            return False
+        self.data.append(data)
+        return True
 
     # TODO: store timestamp in data too
     def parse(self, serial_string):
