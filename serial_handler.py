@@ -42,7 +42,6 @@ class SerialHandler():
 
     def ctrl_decode(self, line):
         array = list(line)
-        print(array)
         array = self.replace_sublist(array, [0, 57], [])
         array = self.replace_sublist(array, [0, 48], [])
         array = self.replace_sublist(array, [254, 69, 0], [])
@@ -54,9 +53,7 @@ class SerialHandler():
         array = self.replace_sublist(array, [254, 69], [])
         array = self.replace_sublist(array, [254, 43], [])
         array = self.replace_sublist(array, [254, 81], [])
-        print(array)
         string = bytes(array).decode('ascii')
-        pprint(string)
         return string
 
     # TODO: just read 34 bytes with a short timeout?
@@ -94,6 +91,8 @@ class SerialHandler():
 
         if matches == None:
             #raise ValueError # TODO: just ignore bad data?
+            print("Failed to match: ")
+            pprint(serial_string)
             return None
 
         data = {}
