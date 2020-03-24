@@ -36,7 +36,7 @@ E0     +1 -11+10
 - [x] Display graphs of RPM, Gyros, Throttle, and Steering
 - [x] Use actual serial data instead of random data
 - [x] Add serial port selection dialog
-- [ ] Overlay Gyro Graphs
+- [x] Overlay Gyro Graphs
 - [ ] Add start/stop display button
 - [ ] Add option to flip analog port assignments
 - [ ] Add options to change serial port configs
